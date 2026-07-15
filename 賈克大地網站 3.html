@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>賈克・大地電影世界 | Jacques Tati</title>
+    <!-- 引入復古電影感的 Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Noto+Sans+TC:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* ==========================================================================
+           1. 全站 CSS 樣式規範 (極簡黑白 + 幾何紅黃藍)
+           ========================================================================== */
+        :root {
+            --bg-color: #f7f7f7;
+            --text-color: #1a1a1a;
+            --accent-red: #e63946;    /* 《我的舅舅》代表紅 */
+            --accent-yellow: #ffb703; /* 《節日》代表黃 */
+            --accent-blue: #1d3557;   /* 《遊戲時間》代表藍 */
+            --gray-light: #e0e0e0;
+            --gray-dark: #333333;
+            --font-title: 'Cinzel', 'Playfair Display', 'Noto Sans TC', serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            padding-top: 80px; /* 預留給固定導覽列 */
+        }
+
+        /* 標題與視覺字體 */
+        h1, h2, h3, .brand-name {
+            font-family: var(--font-title);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* 導覽列 */
+        header {
+            background-color: rgba(26, 26, 26, 0.98);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 4px solid var(--accent-red);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .brand-name {
+            color: #fff;
+            font-size: 1.5rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-name::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent-yellow);
+            border-radius: 50%;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-menu a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 400;
+            cursor: pointer;
+            padding-bottom: 4px;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            color: #ffffff;
+            border-bottom: 2px solid var(--accent-yellow);
+        }
+
+        /* 頁面內容區塊 (切換控制) */
+        .page {
+            display: none; /* 預設隱藏所有頁面 */
+        }
+
+        .page.active-page {
+            display: block; /* 僅顯示當前頁面 */
+        }
+
+        /* ==========================================================================
+           2. 頁面專屬佈局樣式
+           ========================================================================== */
+        
+        /* 首頁主視覺 (Hero Section) */
+        .hero-section {
+            background-color: #1a1a1a;
+            color: #fff;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-yellow);
+            margin-bottom: 30px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero-quote {
+            border-left: 4px solid var(--accent-red);
+            padding-left: 20px;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #ccc;
+            margin-bottom: 40px;
+        }
+
+        /* 純 CSS 現代幾何主視覺拼貼 */
+        .hero-visual-collage {
+            position: relative;
+            height: 400px;
+            background-color: #2a2a2a;
+            border: 4px solid #fff;
+            box-shadow: 10px 10px 0px var(--accent-blue);
+        }
+
+        .collage-element {
+            position: absolute;
+        }
+
+        .collage-building {
+            bottom: 20px;
+            right: 20px;
+            width: 130px;
+            height: 280px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(6, 1fr);
+            gap: 5px;
+            padding: 10px;
+        }
+
+        .collage-building span {
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .collage-building span.active-window {
+            background-color: var(--accent-yellow);
+        }
+
+        /* 剪影裝飾 */
+        .collage-hulot-silhouette {
+            bottom: 0;
+            left: 30px;
+            width: 180px;
+            height: 300px;
+            background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop'); /* 抽象星空/剪影感底圖 */
+            background-size: cover;
+            clip-path: polygon(40% 10%, 60% 10%, 70% 30%, 55% 45%, 90% 90%, 10% 90%, 35% 45%); /* 幾何抽象模擬于洛先生雨傘/風衣剪影 */
+            opacity: 0.85;
+            border-bottom: 5px solid var(--accent-red);
+        }
+
+        /* 一般版面排版 */
+        section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            border-bottom: 2px solid var(--text-color);
+            padding-bottom: 10px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .section-title span {
+            font-size: 1rem;
+            color: var(--accent-red);
+            font-family: var(--font-title);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        /* 按鈕設計 */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: 2px solid var(--text-color);
+            background: transparent;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--text-color);
+            color: #fff;
+        }
+
+        .btn-accent {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .btn-accent:hover {
+            background-color: var(--accent-red);
+            color: #fff;
+        }
+
+        /* 電影卡片與作品列表 */
+        .filter-bar {
+            margin-bottom: 40px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .filter-btn {
+            background: #fff;
+            border: 2px solid var(--text-color);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        .filter-btn.active {
+            background: var(--accent-blue);
+            color: #fff;
+            border-color: var(--accent-blue);
+        }
+
+        .films-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .film-poster-placeholder {
+            width: 100%;
+            height: 380px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 20px;
+            border: 2px solid var(--text-color);
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Styles 頁面（肢體喜劇分析） */
+        .style-block {
+            background: #fff;
+            border-left: 8px solid var(--accent-blue);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.05);
+        }
+
+        /* ==========================================================================
+           3. Modal 彈出視窗與 YouTube 嵌入設計
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none; /* 預設隱藏 */
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 45px;
+            max-width: 850px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            border: 5px solid var(--text-color);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 2.5rem;
+            cursor: pointer;
+            border: none; background: none;
+            color: var(--text-color);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 比例 */
+            height: 0;
+            margin-top: 25px;
+            border: 3px solid var(--text-color);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* 詳細頁結構 */
+        .detail-header {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .detail-poster {
+            width: 300px;
+            height: 420px;
+            background-color: var(--gray-light);
+            background-size: cover;
+            background-position: center;
+            border: 3px solid var(--text-color);
+            flex-shrink: 0;
+        }
+
+        .navigation-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            border-top: 2px solid var(--text-color);
+            padding-top: 20px;
+        }
+
+        /* 頁尾 */
+        footer {
+            background-color: #1a1a1a;
+            color: #888;
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 4px solid var(--accent-blue);
+            font-size: 0.85rem;
+            margin-top: 80px;
+        }
+
+        /* 手機版響應式設計 */
+        @media (max-width: 768px) {
+            body { padding-top: 120px; }
+            .nav-container { flex-direction: column; gap: 15px; }
+            .nav-menu { gap: 15px; }
+            .hero-content { grid-template-columns: 1fr; }
+            .hero-visual-collage { height: 250px; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .detail-header { flex-direction: column; align-items: center; }
+            .detail-poster { width: 100%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================================================
+       導覽列 (全站共用)
+       ========================================================================== -->
+    <header>
+        <div class="nav-container">
+            <a onclick="navigateTo('home')" class="brand-name" style="cursor: pointer;">JACQUES TATI</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a id="nav-home" onclick="navigateTo('home')" class="active">首頁</a></li>
+                    <li><a id="nav-bio" onclick="navigateTo('bio')">導演介紹</a></li>
+                    <li><a id="nav-gallery" onclick="navigateTo('gallery')">電影作品</a></li>
+                    <li><a id="nav-styles" onclick="navigateTo('styles')">電影風格</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==========================================================================
+       【頁面一】首頁 (index.html 內容)
+       ========================================================================== -->
+    <div id="page-home" class="page active-page">
+        <!-- 主視覺區域 -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>賈克・大地</h1>
+                    <p class="hero-subtitle">Jacques Tati (1907 - 1982)</p>
+                    <div class="hero-quote">
+                        「電影應該讓你看見日常生活中不曾注意的小荒謬。」
+                    </div>
+                    <p style="color: #ccc; margin-bottom: 30px; max-width: 550px;">
+                        法國國寶級肢體喜劇大師。他以招牌的雨傘、風衣、煙斗，和永遠慢半拍的「于洛先生」形象，在現代主義鋼筋水泥的冰冷世界裡，用溫柔的凝視與精準的無聲設計，挑動日常的秩序。
+                    </p>
+                    <button onclick="navigateTo('gallery')" class="btn" style="color: #fff; border-color: #fff;">進入作品世界</button>
+                </div>
+                
+                <!-- 幾何拼貼視覺 (行走于洛、現代建築、老車) -->
+                <div class="hero-visual-collage">
+                    <div class="collage-element collage-building">
+                        <span></span><span></span><span></span>
+                        <span></span><span class="active-window"></span><span></span>
+                        <span></span><span></span><span></span>
+                        <span></span><span></span><span></span>
+                        <span></span><span></span><span></span>
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="collage-element collage-hulot-silhouette"></div>
+                    <!-- 裝飾紅黃藍幾何塊 -->
+                    <div style="position: absolute; top: 30px; left: 30px; width: 40px; height: 10px; background-color: var(--accent-red);"></div>
+                    <div style="position: absolute; top: 50px; left: 30px; width: 20px; height: 10px; background-color: var(--accent-blue);"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 導演生平與肢體喜劇風格導覽 -->
+        <section class="grid-2">
+            <div>
+                <h2 class="section-title">生平引介 <span>BIOGRAPHY</span></h2>
+                <p style="margin-bottom: 20px;">
+                    賈克・大地一生僅執導了六部長片，但每一部都堪稱影史傑作。他從默劇演員出身，完美地繼承了巴斯特·基頓與卓別林的肢體傳統，並將其帶入彩色與現代立體聲的時代。
+                </p>
+                <p style="margin-bottom: 30px;">
+                    他不靠喧囂的對白，而是依賴空間與環境的互動。在現代化高樓、複雜的自動化住宅和失控的交通網絡中，他用溫柔而荒謬的視角，抵抗科技對人性的同化。
+                </p>
+                <button onclick="navigateTo('bio')" class="btn">閱讀詳細生平</button>
+            </div>
+            
+            <div>
+                <h2 class="section-title">肢體喜劇藝術 <span>VISUAL GAGS</span></h2>
+                <p style="margin-bottom: 20px;">
+                    大地的幽默不在於低俗的滑稽，而在於「秩序中的失序」。觀察他的電影，就像在看一幅精心佈置的巨幅活動畫卷。
+                </p>
+                <ul style="margin-bottom: 30px; list-style-position: inside; line-height: 2;">
+                    <li><strong>對比的幾何學：</strong> 人類自然、拙劣的動作與鋼筋水泥直線的撞擊。</li>
+                    <li><strong>環境音效魔術：</strong> 放大無意義的機械噪音（皮椅擠壓聲、塑膠門聲）來製造笑料。</li>
+                    <li><strong>群戲構圖：</strong> 畫面中每個角落都在發生微小而幽默的故事。</li>
+                </ul>
+                <button onclick="navigateTo('styles')" class="btn btn-accent">探索風格分析</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==========================================================================
+       【頁面二】導演介紹頁 (biography.html 內容)
+       ========================================================================== -->
+    <div id="page-bio" class="page">
+        <section>
+            <h2 class="section-title">導演介紹 <span>ABOUT THE DIRECTOR</span></h2>
+            <div class="grid-2" style="align-items: center;">
+                <!-- 這裡指向您上傳的本機導演相片：賈克大地.jpg -->
+                <div style="background-image: url('賈克大地.jpg'); background-size: cover; background-position: center top; height: 500px; border: 4px solid var(--text-color); box-shadow: 10px 10px 0px var(--accent-yellow);">
+                </div>
+                <div>
+                    <h3 style="font-size: 2rem; margin-bottom: 15px; font-family: var(--font-title);">賈克・大地 (Jacques Tati)</h3>
+                    <p style="font-weight: bold; color: var(--accent-red); margin-bottom: 20px;">1907 年 11 月 11 日 － 1982 年 11 月 5 日</p>
+                    <p style="margin-bottom: 15px;">
+                        賈克・大地（原名 Jacques Tatischeff）出生於法國伊夫林省。他的祖父是俄羅斯帝國將軍，祖母是荷蘭人，這種多元背景使他從小接觸到寬廣的文化視野。青年時期他熱愛運動，尤其是英式橄欖球，而他驚人的模仿和默劇天賦，正是從模仿運動員的肢體動作開始。
+                    </p>
+                    <p style="margin-bottom: 15px;">
+                        二戰後，大地轉向電影創作。他創造了名留青史的銀幕紳士「于洛先生（Monsieur Hulot）」。于洛先生穿著不合身的風衣，褲管稍短，嘴裡叼著煙斗，手裡拿著雨傘，其笨拙、善良而又帶點固執的特質，成為了反抗現代工業文明和官僚體制的象徵。
+                    </p>
+                    <p>
+                        大地對聲音的運用具有革命性的突破。在《我的舅舅》中，塑料家具的刺耳聲、魚形噴泉噴水聲替代了傳統對話，成為了極具喜劇色彩的媒介。大地的創作理念，深刻啟發了後世如大衛·林區（David Lynch）、魏斯·安德森（Wes Anderson）等多位電影大師。
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==========================================================================
+       【頁面三】電影作品列表頁 (gallery.html 內容)
+       ========================================================================== -->
+    <div id="page-gallery" class="page">
+        <section>
+            <h2 class="section-title">電影作品 <span>THE FILMOGRAPHY</span></h2>
+            
+            <!-- 排序按鈕 -->
+            <div class="filter-bar">
+                <button class="filter-btn active" id="sort-year" onclick="sortFilms('year')">依上映年份排列</button>
+                <button class="filter-btn" id="sort-recommend" onclick="sortFilms('recommend')">依推薦順序排列</button>
+            </div>
+
+            <!-- 作品卡片容器 -->
+            <div class="films-grid" id="films-container">
+                <!-- 透過 JavaScript 動態生成卡片 -->
+            </div>
+        </section>
+    </div>
+
+    <!-- ==========================================================================
+       【頁面四】電影風格分析頁 (style-analysis.html 內容)
+       ========================================================================== -->
+    <div id="page-styles" class="page">
+        <section>
+            <h2 class="section-title">電影風格分析 <span>PHYSICAL COMEDY</span></h2>
+            
+            <div style="margin-bottom: 50px;">
+                <p style="font-size: 1.2rem; line-height: 1.8; max-width: 900px; margin-bottom: 30px;">
+                    賈克・大地的肢體喜劇（Physical Comedy）不同於同時代的好萊塢喜劇。他不追求過度誇張的跌倒或驚險雜耍，而是透過<strong>極度精緻的幾何構圖、環境聲效的放大</strong>以及<strong>平凡人與現代環境的格格不入</strong>，創造出一種富有哲學詩意的「日常幽默」。
+                </p>
+            </div>
+
+            <div class="style-block">
+                <h3 style="font-size: 1.6rem; margin-bottom: 15px; color: var(--accent-red);">1. 聽覺的魔術：聲音取代對白</h3>
+                <p>
+                    在傳統電影中，音效通常是用來輔助畫面的；但對大地而言，聲音就是幽默的主角。他刻意模糊主要人物的對白，卻將日常的機械噪聲（如《我的舅舅》中別墅大門關閉的尖銳刺耳聲、皮沙發被坐下去時排氣的放屁聲）放大。這種「視聽錯置」指出了現代人為了維持體面，反而被科技產品綁架的荒謬感。
+                </p>
+            </div>
+
+            <div class="style-block" style="border-left-color: var(--accent-yellow);">
+                <h3 style="font-size: 1.6rem; margin-bottom: 15px; color: var(--accent-yellow); filter: brightness(0.8);">2. 空間幾何學：人與直線的對抗</h3>
+                <p>
+                    大地的鏡頭絕少使用大特寫，他最鍾愛「遠景」與「長鏡頭」。在《遊戲時間》中，巴黎被簡化為冰冷無趣、清一色由玻璃與鋼筋水泥組成的矩形格子。于洛先生在格子與玻璃迷宮中橫衝直撞，他身上那些不對稱的、笨拙的圓弧形動作，正是對幾何現代都市最優雅、最人性化的反抗。
+                </p>
+            </div>
+
+            <div class="style-block" style="border-left-color: var(--accent-blue);">
+                <h3 style="font-size: 1.6rem; margin-bottom: 15px; color: var(--accent-blue);">3. 民主的笑料：無主角的巨幅畫卷</h3>
+                <p>
+                    在大地的電影裡，沒有誰是絕對的主角——甚至是于洛先生自己，也常常隱沒在人群中，甚至被其他穿風衣的人「誤認」。大地的畫面是「民主」的，在《我的舅舅》別墅花園或《遊戲時間》的旋轉餐廳中，前景、中景與背景都在同時發生著不同的幽默事件，觀眾就像在美術館看一幅巨型清明上河圖，每一次看都能發現新的小趣味。
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==========================================================================
+       【頁面五】六部電影的獨立詳細頁 (動態載入模板)
+       ========================================================================== -->
+    <div id="page-detail" class="page">
+        <section id="detail-container">
+            <!-- 透過 JavaScript 動態生成的詳細頁面結構 -->
+        </section>
+    </div>
+
+
+    <!-- ==========================================================================
+       Modal 彈出視窗 (用於作品列表快速預覽 & YouTube 預告片)
+       ========================================================================== -->
+    <div class="modal-overlay" id="film-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div id="modal-body-content">
+                <!-- 動態注入預覽資訊與 YouTube 嵌入 -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================================================
+       頁尾 (全站共用)
+       ========================================================================== -->
+    <footer>
+        <p>網站製作者：Chelle Chin</p>
+        <p style="font-size: 0.75rem; margin-top: 10px; opacity: 0.7;">
+            非商業學習用途聲明：本網站所使用之電影劇照及預告片均來自 YouTube 及網路公開資源，版權歸原製片方與導演所有。僅作學術交流與推裝使用。
+        </p>
+    </footer>
+
+
+    <!-- ==========================================================================
+       JavaScript 互動與控制邏輯
+       ========================================================================== -->
+    <script>
+        // 1. 六部長片核心資料庫 (副檔名已精確修正為您電腦中的實際格式)
+        const filmsData = [
+            {
+                id: "jour-de-fete",
+                title: "節日",
+                originalTitle: "Jour de fête",
+                year: 1949,
+                recommendOrder: 4,
+                poster: "節日.jpeg", // 您的本機檔名為 .jpeg
+                youtubeId: "V_ZOfvjV-Xk",
+                description: "大地自導自演的第一部劇情長片，講述一個受到美國現代化郵政啟發的法國鄉村郵差，試圖用各種滑稽動作追求極致高效率的故事。",
+                story: "在一個平靜的法國村莊裡，郵差 Francois 在遊樂場中看了一部關於美國高效率空投與摩托化郵政的紀錄片。被深深打動的他，決定將自己原本慢吞吞的單車送信方式進行極限「美式現代化升級」。於是一場跨越鄉野阡陌、滑稽而熱烈的高速單車追逐戰就此上演。",
+                characters: "Francois (賈克・大地飾)：一個雖然不合時宜，但對工作充滿無比熱情、有些固執而純真有活力的鄉村郵差。",
+                comedyAnalysis: "這部片確立了大地對「速度與現代化」的抗擊。Francois 的單車不再只是工具，更像是一個調皮的特技道具。大地的笑料並不來自台詞，而在於他騎車時那奇特、不合人體工學但又無比協調的誇張姿態。",
+                classicScene: "Francois 為了追求極致速度，直接在行駛中的乾草車上完成了蓋郵戳、分類信件，甚至是喝酒休息的全套動作。整場戲流暢得如同雜技表演，荒謬卻充滿市井溫情。"
+            },
+            {
+                id: "m-hulot-holiday",
+                title: "于洛先生的假期",
+                originalTitle: "Les Vacances de M. Hulot",
+                year: 1953,
+                recommendOrder: 2,
+                poster: "于洛先生的假期.jpeg", // 您的本機檔名為 .jpeg
+                youtubeId: "aVAn2bF7f5g",
+                description: "影史經典人物「于洛先生」首次登場。在平靜的濱海度假勝地，他的出現引發了一連串善意卻混亂的連鎖反應。",
+                story: "每到夏季，法國中產階級便集體湧向濱海度假村。于洛先生駕駛著他那一輛會發出震天巨響、隨時會解體的老舊汽車緩緩抵達。在充滿各種刻板教條、看似悠閒實則沉悶的度假旅館中，于洛先生那笨拙而溫柔的存在，打破了所有人的假面生活。",
+                characters: "于洛先生 (Monsieur Hulot)：高挑、前傾、叼著煙斗。他不善言辭，但每一次熱情的打招呼或笨拙的幫忙，都會在無意間引發一場令人捧腹的物理災難。",
+                comedyAnalysis: "這是大地對「中產階級度假儀式」的精準嘲諷。每個人都像機械般重複著看報、吃飯、散步，而于洛先生則是打破這台巨大機器的唯一「螺絲釘」。",
+                classicScene: "【失控的網球拍】于洛先生買了一把造型奇特的網球拍，並用一種極其詭異、像是打蒼蠅一般的滑稽揮拍姿勢擊球，沒想到卻百發百中，把對手和裁判折磨得人仰馬翻。"
+            },
+            {
+                id: "mon-oncle",
+                title: "我的舅舅",
+                originalTitle: "Mon Oncle",
+                year: 1958,
+                recommendOrder: 1, // 第一推薦
+                poster: "我的舅舅.jpeg", // 您的本機檔名為 .jpeg
+                youtubeId: "uCkaA7YlC2M",
+                description: "榮獲奧斯卡最佳外語片！傳統老街區的于洛先生，對上了姐姐家極度自動化、冰冷卻處處滑稽的超現代「阿爾佩別墅」。",
+                story: "引自傳統老街區的于洛先生生活在溫暖、雜亂、充滿人情味的舊巴黎街區。他的姐姐與姐夫則住在一個佈滿高科技自動化設備、冰冷幾何線條的超現代別墅中。當喜愛自由的小外甥邀請這位「好玩的外甥舅舅」來家裡作客時，一場人道主義人性與機械現代生活的幽默碰撞不可避免地爆發了。",
+                characters: "小外甥 Gerard：渴望逃離冰冷高科技住宅的孩子，在于洛舅舅那裡找到了真正的童年溫暖與純真樂趣。",
+                comedyAnalysis: "極具美感的幾何構圖。別墅圓形窗戶在晚上亮起時，外面看過去就像是一對在轉動的眼珠，極致地將「房子」擬人化。色彩上，現代別墅使用冰冷、反光的灰色和藍色，而老街區則使用暖色調，無聲控訴現代主義的非人性。",
+                classicScene: "【難以捉摸的魚形噴泉】每當有自認尊貴的客人來訪，女主人便會瘋狂地打開魚形噴泉開關以炫耀地位；而于洛先生不小心觸動開關，讓噴泉水管失控，將姐夫澆成了落湯雞。"
+            },
+            {
+                id: "playtime",
+                title: "遊戲時間",
+                originalTitle: "Playtime",
+                year: 1967,
+                recommendOrder: 3,
+                poster: "遊戲時間.jpeg", // 已精確修正：這裡您的真實檔案是 .jpeg 格式！
+                youtubeId: "mX4Z8K3F9wA",
+                description: "賈克・大地的終極野心之作。他親自搭建了巨大的鋼筋玻璃微型城市「大地城」，呈現大型迷宮般的現代巴黎。",
+                story: "一群美國遊客抵達了巴黎，然而她們眼前的巴黎並不是充滿歷史古蹟的浪漫之都，而是一個由無數玻璃鋼筋摩天大樓構成的、巨大的幾何迷宮。于洛先生在尋找辦事處經理的過程中，與這群遊客以及無數迷失在現代社會的都市人，一同陷入了一座光影迷宮中。",
+                characters: "美國女遊客 Barbara：與其他只知道拿相機拍照的遊客不同，她擁有發現日常角落細微美感、溫柔而敏銳的雙眼。",
+                comedyAnalysis: "這部電影是 70mm 寬銀幕史詩。沒有任何特寫鏡頭，全片充滿「畫中畫」和多層次笑料。大樓反射的光影時常誤導人們去撞擊乾淨明亮的玻璃牆，這是大師對「視覺欺騙」的終極探索。",
+                classicScene: "【崩潰的皇家花園夜總會】新開張的夜總會因為裝修粗糙，地板、柱子、天花板在營業當晚逐步解體，然而狂歡的客商與市民卻將錯就錯，在廢墟上開起了最自由隨性的派對。"
+            },
+            {
+                id: "trafic",
+                title: "車車車",
+                originalTitle: "Trafic",
+                year: 1971,
+                recommendOrder: 5,
+                poster: "車車車.jpeg", // 已精確修正：這裡您的真實檔案是 .jpeg 格式！
+                youtubeId: "9S_jOasxY5c",
+                description: "于洛先生作為一名新研發露營車的設計師，在前往荷蘭車展的公路上，遇上了一場無休無止、充滿荒謬感的交通大混亂。",
+                story: "于洛先生受雇於一家新創企業，負責開著一輛配備各種天馬行空裝備（淋浴間、廚房、甚至有電動刮鬍刀）的新型多功能露營車，從巴黎運往荷蘭阿姆斯特丹參加國際車展。然而一路上遇到了故障、缺油、海關刁難與連環大車禍，露營車展演之旅變成了一場災難與美妙並存的公路漫遊。",
+                characters: "露營車公司公關 Maria：打扮時髦、性格急躁，一開始對時間極度偏執，但在公路意外的洗禮下，漸漸體會到隨遇而安的美好。",
+                comedyAnalysis: "車子在現代社會代表著效率，而在大地的鏡頭下，公路塞車卻變成了如同芭蕾舞般的緩慢儀式。大師甚至仔細捕捉了駕駛們在等紅燈時，不自覺地抓鼻子、打哈欠等微小的人類習慣，使整條公路散發著奇特溫暖的生命力。",
+                classicScene: "【交響樂般的連環大車禍】在一場慢動作般發生的連環碰撞中，十多輛車優雅地撞在一起，隨後駕駛們下車，沒有發生爭吵，反而在路邊如健身拉伸般優雅地整理殘骸，荒謬且無比詩意。"
+            },
+            {
+                id: "parade",
+                title: "遊行",
+                originalTitle: "Parade",
+                year: 1974,
+                recommendOrder: 6,
+                poster: "遊行.jpeg", // 您的本機檔名為 .jpeg
+                youtubeId: "9o4vBvO678Y",
+                description: "大地的最後一部作品。他回到最初的起點——馬戲團舞台，擔任主持人並演出他經典的體育動作模仿秀。",
+                story: "在一座彩色與歡樂交織的瑞典馬戲團裡，賈克・大地親自扮演主持人，為觀眾穿針引線，介紹各種雜耍、魔術、高空鞦韆。在這個奇妙的舞台上，表演者與台下的觀眾甚至小孩子，界線漸漸模糊，每個人都成了這場生活大遊行的一分子。",
+                characters: "賈克・大地親自上陣：卸下了于洛先生的外裝，他以自己最初的「體育默劇演員」身分，再次施展他極致的默劇功底。",
+                comedyAnalysis: "這是大師回歸舞台藝術、返璞歸真地溫柔告別。全片充滿了歡聲笑語，沒有對科技的諷刺，只有對人類本真肢體語言、生命活力的讚美。",
+                classicScene: "【無實物網球與騎馬模仿】大地站在舞台中央，完全不使用任何道具，僅憑著無懈可擊的肌肉控制與節奏感，精準模擬了網球選手、馬術障礙賽選手的動態，贏得滿堂彩。"
+            }
+        ];
+
+        // 2. 路由控制：多頁面切換 logic
+        function navigateTo(pageId, extraParam = null) {
+            // 隱藏所有頁面
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(p => p.classList.remove('active-page'));
+
+            // 移除所有導覽列 link 的 active 狀態
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            // 顯示特定頁面
+            if (pageId === 'home') {
+                document.getElementById('page-home').classList.add('active-page');
+                document.getElementById('nav-home').classList.add('active');
+                window.scrollTo(0, 0);
+            } else if (pageId === 'bio') {
+                document.getElementById('page-bio').classList.add('active-page');
+                document.getElementById('nav-bio').classList.add('active');
+                window.scrollTo(0, 0);
+            } else if (pageId === 'gallery') {
+                document.getElementById('page-gallery').classList.add('active-page');
+                document.getElementById('nav-gallery').classList.add('active');
+                window.scrollTo(0, 0);
+                renderFilms(filmsData); // 每次切換至列表頁時重新渲染
+            } else if (pageId === 'styles') {
+                document.getElementById('page-styles').classList.add('active-page');
+                document.getElementById('nav-styles').classList.add('active');
+                window.scrollTo(0, 0);
+            } else if (pageId === 'detail' && extraParam) {
+                renderDetailPage(extraParam);
+                document.getElementById('page-detail').classList.add('active-page');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // 3. 作品列表渲染與排序
+        function renderFilms(films) {
+            const container = document.getElementById('films-container');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            films.forEach(film => {
+                const card = document.createElement('div');
+                card.className = 'film-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="film-poster-placeholder" style="background-image: url('${film.poster}')"></div>
+                        <div class="film-info">
+                            <h3>${film.title}</h3>
+                            <div class="film-meta">
+                                <span>${film.originalTitle}</span><br>
+                                <strong>上映年份：${film.year}</strong>
+                            </div>
+                            <p style="font-size: 0.95rem; margin-bottom: 20px; color: #444; height: 75px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">${film.description}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-accent" style="width:100%; margin-bottom: 12px;" onclick="openModal('${film.id}')">快速預覽預告片</button>
+                        <button class="btn" style="width:100%;" onclick="navigateTo('detail', '${film.id}')">進入獨立詳細頁</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function sortFilms(criterion) {
+            const btnYear = document.getElementById('sort-year');
+            const btnRecommend = document.getElementById('sort-recommend');
+
+            if (criterion === 'year') {
+                btnYear.classList.add('active');
+                btnRecommend.classList.remove('active');
+                const sorted = [...filmsData].sort((a, b) => a.year - b.year);
+                renderFilms(sorted);
+            } else if (criterion === 'recommend') {
+                btnRecommend.classList.add('active');
+                btnYear.classList.remove('active');
+                const sorted = [...filmsData].sort((a, b) => a.recommendOrder - b.recommendOrder);
+                renderFilms(sorted);
+            }
+        }
+
+        // 4. Modal 控制 (YouTube 彈窗播放)
+        function openModal(filmId) {
+            const film = filmsData.find(f => f.id === filmId);
+            if (!film) return;
+
+            const modalBody = document.getElementById('modal-body-content');
+            const modalOverlay = document.getElementById('film-modal');
+
+            modalBody.innerHTML = `
+                <h2 style="font-size: 2.2rem; margin-bottom: 5px; font-family: var(--font-title);">${film.title}</h2>
+                <h4 style="font-style: italic; color: #666; margin-bottom: 20px; font-family: var(--font-title);">${film.originalTitle} (${film.year})</h4>
+                <p style="font-size: 1rem; line-height: 1.8; color: #333; margin-bottom: 25px;">${film.story}</p>
+                
+                <!-- YouTube 嵌入式播放器 -->
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/${film.youtubeId}?autoplay=1" 
+                            title="${film.title} 預告片" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+                
+                <div style="margin-top: 35px; display: flex; gap: 15px;">
+                    <button class="btn" onclick="closeModal(); navigateTo('detail', '${film.id}')">查看極詳細圖文解析</button>
+                </div>
+            `;
+            modalOverlay.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modalOverlay = document.getElementById('film-modal');
+            const modalBody = document.getElementById('modal-body-content');
+            if (modalOverlay) {
+                modalOverlay.style.display = 'none';
+                modalBody.innerHTML = ''; // 清空內容，停止播放預告片聲音
+            }
+        }
+
+        // 5. 動態產生六部長片之「詳細資料頁面」
+        function renderDetailPage(filmId) {
+            const index = filmsData.findIndex(f => f.id === filmId);
+            if (index === -1) return;
+            
+            const film = filmsData[index];
+            
+            // 計算「上一部」與「下一部」
+            const prevFilm = filmsData[index - 1] ? filmsData[index - 1] : filmsData[filmsData.length - 1];
+            const nextFilm = filmsData[index + 1] ? filmsData[index + 1] : filmsData[0];
+
+            const container = document.getElementById('detail-container');
+            container.innerHTML = `
+                <div class="detail-header">
+                    <div class="detail-poster" style="background-image: url('${film.poster}')"></div>
+                    <div>
+                        <h2 style="font-size: 2.8rem; margin-bottom: 10px; font-family: var(--font-title);">${film.title}</h2>
+                        <h4 style="font-style: italic; color: #666; margin-bottom: 20px; font-size: 1.3rem; font-family: var(--font-title);">${film.originalTitle} (${film.year})</h4>
+                        <div style="border-left: 4px solid var(--accent-red); padding-left: 20px; margin-bottom: 25px; font-weight: bold; font-size: 1.1rem;">
+                            "${film.description}"
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <h3 style="font-size: 1.6rem; border-bottom: 2px solid var(--text-color); padding-bottom: 8px; margin-bottom: 15px; color: var(--accent-blue);">劇情介紹</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 30px;">${film.story}</p>
+                    
+                    <h3 style="font-size: 1.6rem; border-bottom: 2px solid var(--text-color); padding-bottom: 8px; margin-bottom: 15px; color: var(--accent-blue);">角色剖析</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 30px;">${film.characters}</p>
+
+                    <h3 style="font-size: 1.6rem; border-bottom: 2px solid var(--text-color); padding-bottom: 8px; margin-bottom: 15px; color: var(--accent-blue);">肢體喜劇深度分析</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 30px;">${film.comedyAnalysis}</p>
+
+                    <h3 style="font-size: 1.6rem; border-bottom: 2px solid var(--text-color); padding-bottom: 8px; margin-bottom: 15px; color: var(--accent-blue);">經典場景解析</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 30px;">${film.classicScene}</p>
+
+                    <h3 style="font-size: 1.6rem; border-bottom: 2px solid var(--text-color); padding-bottom: 8px; margin-bottom: 15px; color: var(--accent-blue);">YouTube 預告片</h3>
+                    <div class="video-container" style="margin-bottom: 50px;">
+                        <iframe src="https://www.youtube.com/embed/${film.youtubeId}" 
+                                title="${film.title} 預告片" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- 導覽底列 -->
+                <div class="navigation-row">
+                    <button class="btn" onclick="navigateTo('detail', '${prevFilm.id}')">← 上一部：${prevFilm.title}</button>
+                    <button class="btn btn-accent" onclick="navigateTo('gallery')">返回作品列表</button>
+                    <button class="btn" onclick="navigateTo('detail', '${nextFilm.id}')">下一部：${nextFilm.title} →</button>
+                </div>
+            `;
+        }
+
+        // 初始化：預設載入電影作品列表
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFilms(filmsData);
+        });
+    </script>
+</body>
+</html>
