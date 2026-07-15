@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1100" viewBox="0 0 800 1100">
+<rect width="800" height="1100" fill="#f4f1e8"/><rect x="40" y="40" width="720" height="1020" fill="none" stroke="#111" stroke-width="8"/>
+<circle cx="620" cy="220" r="120" fill="#e3342f"/><path d="M130 820 L220 450 L330 820 Z" fill="#111"/>
+<rect x="390" y="340" width="260" height="330" fill="#d9d9d9" stroke="#111" stroke-width="6"/><g stroke="#111" stroke-width="5"><line x1="455" y1="340" x2="455" y2="670"/><line x1="520" y1="340" x2="520" y2="670"/><line x1="585" y1="340" x2="585" y2="670"/><line x1="390" y1="420" x2="650" y2="420"/><line x1="390" y1="500" x2="650" y2="500"/><line x1="390" y1="580" x2="650" y2="580"/></g>
+<circle cx="230" cy="380" r="24" fill="#111"/><path d="M230 405 L205 560 L255 560 Z" fill="#111"/><line x1="215" y1="470" x2="160" y2="520" stroke="#111" stroke-width="12"/><line x1="245" y1="470" x2="300" y2="510" stroke="#111" stroke-width="12"/>
+<text x="80" y="910" font-family="Arial, sans-serif" font-size="64" font-weight="700" fill="#111">PlayTime</text><text x="80" y="990" font-family="Arial, sans-serif" font-size="40" fill="#e3342f">遊戲時間 · 1967</text></svg>
